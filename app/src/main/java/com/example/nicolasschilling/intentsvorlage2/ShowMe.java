@@ -7,38 +7,37 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class ShowMe extends AppCompatActivity {
 
     TextView txtview;
     Button loadbtn;
+    ArrayList<Data> my_data;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.showme);
 
-        txtview = (TextView) findViewById(R.id.textView);
-        loadbtn = (Button) findViewById(R.id.loadbtn);
+        //Wir laden mal Data gleich am anfang...
+        my_data = (ArrayList<Data>) getIntent().getSerializableExtra(MainActivity.parKEY);
+
+        System.out.println("Intent Extra First Entry: " + my_data.get(0).describeContents());
 
 
-        loadbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadData();
-            }
-        });
     }
 
 
 
     //LOADDATA
-    private void loadData() {
-        if (getIntent().getExtras() != null) {
-            Data load_data = getIntent().getParcelableExtra(MainActivity.parKEY);
-            if (load_data != null) {
-                txtview.setText(load_data.getDaten());
-            }
-        }
+    public void loadData(View v) {
+
+        txtview = (TextView) findViewById(R.id.textView);
+        loadbtn = (Button) findViewById(R.id.loadbtn);
+
+        txtview.setText(my_data.get(0).describeContents());
     }
 }
 

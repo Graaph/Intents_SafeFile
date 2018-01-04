@@ -9,51 +9,25 @@ import java.io.Serializable;
  * Created by nicolasschilling on 27.12.17.
  */
 
-public class Data implements Parcelable {
+
+//Zum senden reicht "Serializable" und nen cast auf das object...
+public class Data implements Serializable {
 
     private String daten;
 
-
-    protected Data (Parcel in ) {
-        daten = in.readString(); //this must be readInt for int etc.
-    }
-
-
-
-
-
 //Konstruktor
-    public Data(String data){
-        this.daten =data;
-    }
-
-
-    public static final Creator<Data>CREATOR = new Creator<Data>() {
-        @Override
-        public Data createFromParcel (Parcel in) {
-        return new Data(in);
-        }
-
-
-        @Override
-        public Data[] newArray(int size) {
-            return new Data[size];
-        }
-    };
-
-
-
-        @Override
-    public int describeContents() {
-        return 0;
-        }
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(daten);
+    Data(String data){
+        this.daten = data;
     }
 
 
 
+    //Overwrites brauchst du nur wenn du auch wirklich ne andere funktion überschreiben willst. Zb wenn man ne klasse
+    // mit der funktion "do_stuff" extended, die funktion "do_stuff" in der neuen klasse aber was anderes machen soll :)
+    // @Override
+    public String describeContents() {
+        return daten;
+        }
 
     public String getDaten(){
         return daten;

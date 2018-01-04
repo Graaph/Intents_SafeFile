@@ -24,22 +24,26 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Get the items
         editText = (EditText) findViewById(R.id.editText);
-        safebtn = (Button) findViewById(R.id. safebtn);
+        safebtn = (Button) findViewById(R.id.safebtn); //Hier war ein leerzeichen nach dem R.id. .. ka ob das was macht :D
         filesafebtn =(Button) findViewById(R.id.filesafebtn);
 
 
+        /* Ich mach die listener immer über eigene funcktionen die man in dem layout dann beim button angibt, dadurch kann man weniger falsch machen weils die sonst einfach nicht nimmt :D
+        safebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Data newdata = new Data (editText.getText().toString());
+                datenliste.add(newdata);
+                senddata();
+
+            }
+        });
 
 
-                safebtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Data newdata = new Data (editText.getText().toString());
-                        datenliste.add(newdata);
-                        senddata();
 
-                    }
-                });
+
 
         filesafebtn.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -52,14 +56,42 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+        */
 
+
+    }
+
+
+
+    //Filesave button
+    public void FileSave(View v){
+
+        editText = (EditText) findViewById(R.id.editText);
+        //Startet eine instance des FileWriters and versucht das aus dem EditText zu schreiben
+        FileWriter writer = new FileWriter();
+
+
+        if (writer.saveFile(editText.getText().toString())) {
+            Toast.makeText(MainActivity.this, "Has been safed", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(MainActivity.this, "ERROR", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    //Save button
+    public void ButtonWasClicked(View v){
+        //Get the filed again
+        editText = (EditText) findViewById(R.id.editText);
+
+        Data newdata = new Data (editText.getText().toString());
+        datenliste.add(newdata);
+        senddata();
     }
 
     public void senddata(){
         Intent myIntent = new Intent (MainActivity.this, ShowMe.class);
-        myIntent.putExtra(parKEY, datenliste.get(datenliste.size()-1));
+        myIntent.putExtra(parKEY, this.datenliste); //Dadurch das wir das Serializable gemacht haben kann man das einfach rein tun :)
         startActivity(myIntent);
-
-
     }
+
 }
